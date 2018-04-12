@@ -1,0 +1,38 @@
+﻿@page
+@model RazorPages.Pages.Dogs.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>@Model.Item.GetType().Name</h4>
+    <hr />
+    @foreach (var property in Model.Item.GetType().GetProperties())
+    {
+        <dl class="dl-horizontal @Model.GetPropertyCss(property)">
+            @if (Model.PropertyShowable(property))
+            {
+                if (Model.CustomLayoutExists(property))
+                {
+                    @Model.GetCustomLayout(property)
+                }
+                else
+                {
+                    <dt>
+                        @Model.GetPropertyName(property)
+                    </dt>
+                    <dd>
+                        @property.GetValue(Model.Item)
+                    </dd>
+                }
+            }
+        </dl>
+    }
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Item.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
