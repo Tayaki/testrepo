@@ -1,18 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RazorPages.Attributes;
 using RazorPages.Helpers;
-using RazorPages.Models;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace RazorPages.Generic
 {
-    public class GenericIndexPageModel<T, TContext> : PageModel where T : class where TContext : DbContext
+    public class GenericIndexPageModel<T, TContext> : GenericPageModel where T : class where TContext : DbContext
     {
         private readonly TContext _context;
 
@@ -37,11 +32,6 @@ namespace RazorPages.Generic
                     !property.PropertyAttributeExists<DetailsOnlyAttribute>() &&
                     !property.PropertyAttributeExists<EditOnlyAttribute>() &&
                     !property.GetGetMethod().IsVirtual);
-        }
-
-        public string GetPropertyName(PropertyInfo property)
-        {
-            return property.GetPropertyName();
         }
 
         public string GetPropertyValue(PropertyInfo property, T item)

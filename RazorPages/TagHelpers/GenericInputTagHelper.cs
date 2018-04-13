@@ -1,20 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore;
-using RazorPages.Attributes;
 using RazorPages.Enums;
 using RazorPages.HelperModels;
 using RazorPages.Helpers;
 using RazorPages.Interfaces;
 using RazorPages.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RazorPages.TagHelpers
 {

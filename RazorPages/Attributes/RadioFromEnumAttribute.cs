@@ -1,14 +1,11 @@
-﻿using RazorPages.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using RazorPages.HelperModels;
-using System.Text;
-using System.Reflection;
 using RazorPages.Helpers;
+using RazorPages.Interfaces;
+using System;
+using System.Reflection;
+using System.Text;
 
 namespace RazorPages.Attributes
 {
