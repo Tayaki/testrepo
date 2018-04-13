@@ -74,7 +74,8 @@ namespace RazorPages.Generic
         public bool PropertyShowable(PropertyInfo property)
         {
             return (!property.PropertyAttributeExists<DetailsOnlyAttribute>() &&
-                    !property.PropertyAttributeExists<CreateOnlyAttribute>());
+                    !property.PropertyAttributeExists<CreateOnlyAttribute>() &&
+                    !property.GetGetMethod().IsVirtual);
         }
 
         public bool CustomLayoutExists(PropertyInfo property)

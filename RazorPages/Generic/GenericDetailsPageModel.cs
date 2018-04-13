@@ -46,7 +46,8 @@ namespace RazorPages.Generic
         {
             return (!property.PropertyAttributeExists<HiddenAttribute>() &&
                     !property.PropertyAttributeExists<CreateOnlyAttribute>() &&
-                    !property.PropertyAttributeExists<EditOnlyAttribute>());
+                    !property.PropertyAttributeExists<EditOnlyAttribute>() &&
+                    !property.GetGetMethod().IsVirtual);
         }
 
         public bool CustomLayoutExists(PropertyInfo property)
@@ -75,7 +76,12 @@ namespace RazorPages.Generic
 
         public string GetPropertyName(PropertyInfo property)
         {
-            return (property.GetPropertyAttribute<DisplayAttribute>() as DisplayAttribute)?.Name ?? "";
+            return property.GetPropertyName();
+        }
+
+        public string GetPropertyValue(PropertyInfo property)
+        {
+            return property.GetPropertyDatabaseValue<SelectorFromDatabaseAttribute, TContext>(Item, _context);
         }
         #endregion
     }

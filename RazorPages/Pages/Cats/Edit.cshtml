@@ -1,0 +1,47 @@
+﻿@page
+@model RazorPages.Pages.Cats.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Dog</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @foreach (var property in Model.Type.GetProperties())
+            {
+                if (Model.PropertyShowable(property))
+                {
+                    if (Model.CustomLayoutExists(property))
+                    {
+                        @Model.GetCustomLayout(property)
+                    }
+                    else
+                    {
+                        <div class="form-group @Model.GetPropertyCss(property)">
+                            <generic-label expression="@property" />
+                            <generic-input expression="@property" value="@property.GetValue(Model.Item)" />
+                            <generic-validation expression="@property" value="@Model.GetModelFieldError(property)" />
+                        </div>
+                    }
+                }
+            }
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

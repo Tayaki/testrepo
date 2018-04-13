@@ -56,7 +56,8 @@ namespace RazorPages.Generic
         {
             return (!property.PropertyAttributeExists<ReadonlyAttribute>() &&
                     !property.PropertyAttributeExists<DetailsOnlyAttribute>() &&
-                    !property.PropertyAttributeExists<EditOnlyAttribute>());
+                    !property.PropertyAttributeExists<EditOnlyAttribute>() &&
+                    !property.GetGetMethod().IsVirtual);
         }
 
         public bool CustomLayoutExists(PropertyInfo property)

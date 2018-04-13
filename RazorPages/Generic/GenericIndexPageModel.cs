@@ -29,18 +29,24 @@ namespace RazorPages.Generic
         }
 
         #region HelperFunctions
-        public bool PropertyShowable( PropertyInfo property)
+        public bool PropertyShowable(PropertyInfo property)
         {
             return (!property.PropertyAttributeExists<HiddenAttribute>() &&
                     !property.PropertyAttributeExists<ReadonlyAttribute>() &&
                     !property.PropertyAttributeExists<CreateOnlyAttribute>() &&
                     !property.PropertyAttributeExists<DetailsOnlyAttribute>() &&
-                    !property.PropertyAttributeExists<EditOnlyAttribute>());
+                    !property.PropertyAttributeExists<EditOnlyAttribute>() &&
+                    !property.GetGetMethod().IsVirtual);
         }
 
-        public string GetPropertyName( PropertyInfo property)
+        public string GetPropertyName(PropertyInfo property)
         {
-            return (property.GetPropertyAttribute<DisplayAttribute>() as DisplayAttribute)?.Name ?? "";
+            return property.GetPropertyName();
+        }
+
+        public string GetPropertyValue(PropertyInfo property, T item)
+        {
+            return property.GetPropertyDatabaseValue<SelectorFromDatabaseAttribute, TContext>(item, _context);
         }
         #endregion
     }

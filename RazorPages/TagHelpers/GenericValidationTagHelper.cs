@@ -13,8 +13,8 @@ namespace RazorPages.TagHelpers
     public class GenericValidationTagHelper : TagHelper
     {
         #region Properties
-        private string BaseType { get { return Convert.ToString(Expression.Model.GetType().GetProperty("DeclaringType").GetValue(Expression.Model).GetType().GetProperty("FullName").GetValue(Expression.Model.GetType().GetProperty("DeclaringType").GetValue(Expression.Model))); } }
-        private string PropertyName { get { return Convert.ToString(Expression.Model.GetType().GetProperty("Name").GetValue(Expression.Model)); } }
+        private string BaseType { get { return Convert.ToString(Expression.Model.GetValue("DeclaringType.FullName")); } }
+        private string PropertyName { get { return Convert.ToString(Expression.Model.GetValue("Name")); } }
         public string Value { get; set; }
         public ModelExpression Expression { get; set; }
         #endregion
@@ -22,8 +22,8 @@ namespace RazorPages.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             PropertyInfo requestedProperty = ReflectionHelpers.GetPropertyInfo(BaseType, PropertyName);
-            object hidden = ReflectionHelpers.GetPropertyAttribute<HiddenAttribute>(requestedProperty);
-            if (hidden == null)
+            object hidden = requestedProperty.GetPropertyAttribute<HiddenAttribute>();
+            if (hidden == null && !requestedProperty.GetGetMethod().IsVirtual)
             {
                 output.TagName = "span";
                 output.TagMode = TagMode.StartTagAndEndTag;

@@ -11,9 +11,10 @@ using System;
 namespace RazorPages.Migrations
 {
     [DbContext(typeof(DogContext))]
-    partial class DogContextModelSnapshot : ModelSnapshot
+    [Migration("20180412115558_Cat")]
+    partial class Cat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,6 +14,6 @@ namespace RazorPages.Models
         }
 
         public DbSet<Dog> Dog { get; set; }
-        //public DbSet<Cat> Cat { get; set; }
+        public DbSet<Cat> Cat { get; set; }
     }
 }
