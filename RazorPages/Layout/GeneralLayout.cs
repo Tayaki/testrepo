@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Html;
+using RazorPages.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,6 @@ using System.Threading.Tasks;
 
 namespace RazorPages.Layout
 {
-    public interface IGeneralLayout
-    {
-        HtmlString GenerateCreate(object[] options = null);
-        HtmlString GenerateDetails(object[] options = null);
-        HtmlString GenerateEdit(object[] options = null);
-        HtmlString GenerateDelete(object[] options = null);
-    }
-
     public abstract class GeneralLayout : IGeneralLayout
     {
         public abstract HtmlString GenerateCreate(object[] options = null);

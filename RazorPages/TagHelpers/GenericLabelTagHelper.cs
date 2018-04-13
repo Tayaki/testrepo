@@ -13,11 +13,9 @@ namespace RazorPages.TagHelpers
 {
     public class GenericLabelTagHelper : TagHelper
     {
-        #region Properties
         private string BaseType { get { return Convert.ToString(Expression.Model.GetValue("DeclaringType.FullName")); } }
         private string PropertyName { get { return Convert.ToString(Expression.Model.GetValue("Name")); } }
         public ModelExpression Expression { get; set; }
-        #endregion
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

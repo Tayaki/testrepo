@@ -12,12 +12,10 @@ namespace RazorPages.TagHelpers
 {
     public class GenericValidationTagHelper : TagHelper
     {
-        #region Properties
         private string BaseType { get { return Convert.ToString(Expression.Model.GetValue("DeclaringType.FullName")); } }
         private string PropertyName { get { return Convert.ToString(Expression.Model.GetValue("Name")); } }
         public string Value { get; set; }
         public ModelExpression Expression { get; set; }
-        #endregion
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
