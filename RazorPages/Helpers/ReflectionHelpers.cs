@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RazorPages.Attributes;
+using RazorPages.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace RazorPages.Helpers
             return requestedType.GetProperty(propertyName);
         }
 
+        public static CustomAttributeData GetPropertyLayoutAttributeData(this PropertyInfo property)
+        {
+            return property.CustomAttributes.Where(a => a.AttributeType.GetInterfaces().Contains(typeof(IGeneralAttribute))).FirstOrDefault();
+        }
+
         public static object GetPropertyAttribute<T>(this PropertyInfo property) where T : class
         {
             return property.GetCustomAttributes(typeof(T), true).FirstOrDefault();
@@ -24,6 +30,16 @@ namespace RazorPages.Helpers
         public static object GetPropertyAttribute(this PropertyInfo property, Type attributeType)
         {
             return property.GetCustomAttributes(attributeType, true).FirstOrDefault();
+        }
+
+        public static bool PropertyAttributeExists<T>(this PropertyInfo property) where T : class
+        {
+            return (property.GetCustomAttributes(typeof(T), true).FirstOrDefault() != null);
+        }
+
+        public static bool IsNullable(this PropertyInfo property)
+        {
+            return (Nullable.GetUnderlyingType(property.PropertyType) != null);
         }
 
         public static object GetPropertyValue<T>(this PropertyInfo property, string propertyName) where T : class
@@ -58,11 +74,6 @@ namespace RazorPages.Helpers
             return property.GetValue(item)?.ToString();
         }
 
-        public static bool PropertyAttributeExists<T>(this PropertyInfo property) where T : class
-        {
-            return (property.GetCustomAttributes(typeof(T), true).FirstOrDefault() != null);
-        }
-
         public static TypeCode GetRealTypeCode(this PropertyInfo property)
         {
             TypeCode requestedPropertyCode = Type.GetTypeCode(property.PropertyType);
@@ -72,11 +83,6 @@ namespace RazorPages.Helpers
                 requestedPropertyCode = Type.GetTypeCode(property.PropertyType.GenericTypeArguments[0]);
             }
             return requestedPropertyCode;
-        }
-
-        public static bool IsNullable(this PropertyInfo property)
-        {
-            return (Nullable.GetUnderlyingType(property.PropertyType) != null);
         }
 
         public static object GetValue(this object model, string property)

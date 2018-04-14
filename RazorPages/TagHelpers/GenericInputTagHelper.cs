@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.EntityFrameworkCore;
 using RazorPages.Enums;
 using RazorPages.HelperModels;
 using RazorPages.Helpers;
 using RazorPages.Interfaces;
 using RazorPages.Models;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace RazorPages.TagHelpers
 {
-    public class GenericInputTagHelper : TagHelper
+    public class GenericInputTagHelper<TContext> : TagHelper where TContext : DbContext
     {
-        private readonly DogContext DatabaseContext;
+        private readonly TContext DatabaseContext;
         private string BaseType { get { return Convert.ToString(Expression.Model.GetValue("DeclaringType.FullName")); } }
         private string PropertyName { get { return Convert.ToString(Expression.Model.GetValue("Name")); } }
         public string Value { get; set; }
         public ModelExpression Expression { get; set; }
 
-        public GenericInputTagHelper(DogContext databaseContext)
+        public GenericInputTagHelper(TContext databaseContext)
         {
             DatabaseContext = databaseContext;
         }
@@ -29,18 +31,13 @@ namespace RazorPages.TagHelpers
             PropertyInfo requestedProperty = ReflectionHelpers.GetPropertyInfo(BaseType, PropertyName);
             if (!requestedProperty.GetGetMethod().IsVirtual)
             {
-                bool needNormalInput = true;
-                foreach (var attribute in typeof(GenericInputAttribute).GetEnumValues())
+                CustomAttributeData attributeData = requestedProperty.GetPropertyLayoutAttributeData();
+                if (attributeData != null)
                 {
-                    string attributeName = Convert.ToString(attribute).Replace("_", ".");
-                    object _attribute = requestedProperty.GetPropertyAttribute(Type.GetType(attributeName));
-                    if (_attribute != null)
-                    {
-                        (_attribute as IGeneralAttribute).GenerateInput(model, DatabaseContext);
-                        needNormalInput = false;
-                    }
+                    object attribute = requestedProperty.GetPropertyAttribute(attributeData.AttributeType);
+                    (attribute as IGeneralAttribute).GenerateInput(model, DatabaseContext);
                 }
-                if (needNormalInput)
+                else
                 {
                     model.NormalInput();
                 }

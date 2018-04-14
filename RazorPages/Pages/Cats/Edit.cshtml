@@ -25,7 +25,7 @@
                     {
                         <div class="form-group @Model.GetPropertyCss(property)">
                             <generic-label expression="@property" />
-                            <generic-input expression="@property" value="@property.GetValue(Model.Item)" />
+                            <razor-input expression="@property" value="@property.GetValue(Model.Item)" />
                             <generic-validation expression="@property" value="@Model.GetModelFieldError(property)" />
                         </div>
                     }
